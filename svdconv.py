@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #
 # (c) 2015 Peter Gielda <pgielda@antmicro.com>
 #
