@@ -5,7 +5,7 @@ usage
 
 execute: ``./svdparse.py example_svds/STM32F41x.svd.gz`` to get:
 
-.. code-block::
+::
 	>>> Parsing SVD file 'example_svds/STM32F41x.svd.gz'...
 	<<< File parsed.
 	<<< File parsed
