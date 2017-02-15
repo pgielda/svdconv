@@ -7,6 +7,7 @@ execute: ``./svdparse.py example_svds/STM32F41x.svd.gz``
 to get this result:
 
 ::
+
 	>>> Parsing SVD file 'example_svds/STM32F41x.svd.gz'...
 	--- XML parsed.
 	--- SVD parsed.
