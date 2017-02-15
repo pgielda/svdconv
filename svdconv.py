@@ -1,6 +1,8 @@
 #!/usr/bin/python
 #
-# (c) 2015 Peter Gielda <pgielda@antmicro.com>
+# (c) 2015-2017 Antmicro Ltd <www.antmicro.com>
+#
+# author: Peter Gielda <pgielda@antmicro.com>
 #
 # released under MIT license.
 #
@@ -50,9 +52,11 @@ for peripheral in peripherals.getElementsByTagName("peripheral"):
             peripherals_data[peripheral_name]["baseAddress"] = int(peripheral.getElementsByTagName("baseAddress")[0].childNodes[0].data, 16)
         if (len(peripheral.getElementsByTagName("addressBlock")) > 0):
             peripherals_data[peripheral_name]["baseSize"] = int(peripheral.getElementsByTagName("addressBlock")[0].getElementsByTagName("size")[0].childNodes[0].data, 16)
-        if (len(peripheral.getElementsByTagName("interrupt")) > 0):
-            peripherals_data[peripheral_name]["irqName"] = peripheral.getElementsByTagName("interrupt")[0].getElementsByTagName("name")[0].childNodes[0].data
-            peripherals_data[peripheral_name]["irqNumber"] = int(peripheral.getElementsByTagName("interrupt")[0].getElementsByTagName("value")[0].childNodes[0].data)
+        peripherals_data[peripheral_name]["irqs"] = {}
+        for i in range(0, len(peripheral.getElementsByTagName("interrupt"))):
+            peripherals_data[peripheral_name]["irqs"][i] = {}
+            peripherals_data[peripheral_name]["irqs"][i]["irqName"] = peripheral.getElementsByTagName("interrupt")[i].getElementsByTagName("name")[0].childNodes[0].data
+            peripherals_data[peripheral_name]["irqs"][i]["irqNumber"] = int(peripheral.getElementsByTagName("interrupt")[i].getElementsByTagName("value")[0].childNodes[0].data)
     except:
         print("ERROR: parse error")
 
@@ -62,8 +66,10 @@ for peripheral_name in sorted(peripherals_data):
         sys.stdout.write("peripheral: '%s'" % (peripherals_data[peripheral_name]["peripheralName"])) ,
         sys.stdout.write(" of type '%s'" % peripherals_data[peripheral_name]["groupName"]) ,
         sys.stdout.write(", registered @ <%08X..%08X)" % (peripherals_data[peripheral_name]["baseAddress"], peripherals_data[peripheral_name]["baseAddress"]+peripherals_data[peripheral_name]["baseSize"])) ,
-        if 'irqName' in peripherals_data[peripheral_name]:
-            print(", with interrupt '%s' @ %d" % (peripherals_data[peripheral_name]["irqName"], peripherals_data[peripheral_name]["irqNumber"])) 
-        else:
-            print("")
+        if (len(peripherals_data[peripheral_name]["irqs"]) > 0):
+            print ", with interrupts:" ,
+            for i in peripherals_data[peripheral_name]["irqs"]:
+                if (i > 0): print "," ,
+                print("'%s' @ %d" % (peripherals_data[peripheral_name]["irqs"][i]["irqName"], peripherals_data[peripheral_name]["irqs"][i]["irqNumber"])) ,
+        print("")
 
