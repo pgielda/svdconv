@@ -45,6 +45,8 @@ for peripheral in peripherals.getElementsByTagName("peripheral"):
         peripherals_data[peripheral_name]["peripheralName"] = peripheral_name
         if (len(peripheral.getElementsByTagName("groupName")) > 0):
             peripherals_data[peripheral_name]["groupName"] = (peripheral.getElementsByTagName("groupName")[0].childNodes[0].data)
+        elif (peripherals_data[peripheral_name]["groupName"] is not None):
+            pass
         elif (len(peripheral.getElementsByTagName("description")) > 0):
             # some svd files have description field instead of groupname
             peripherals_data[peripheral_name]["groupName"] = (peripheral.getElementsByTagName("description")[0].childNodes[0].data)
