@@ -29,7 +29,7 @@ print(">>> Parsing SVD file '%s'..." % sys.argv[1])
 
 svd_tree = xml.dom.minidom.parseString(file_content)
 
-print("<<< File parsed.")
+print("--- XML parsed.")
 
 peripherals = svd_tree.documentElement.getElementsByTagName("peripherals")[0]
 
@@ -61,8 +61,9 @@ for peripheral in peripherals.getElementsByTagName("peripheral"):
             peripherals_data[peripheral_name]["irqs"][i]["irqNumber"] = int(peripheral.getElementsByTagName("interrupt")[i].getElementsByTagName("value")[0].childNodes[0].data)
     except:
         print("ERROR: parse error")
+print ("--- SVD parsed.")
 
-print("<<< File parsed")
+print("<<< File parsed.")
 
 for peripheral_name in sorted(peripherals_data):
         sys.stdout.write("peripheral: '%s'" % (peripherals_data[peripheral_name]["peripheralName"])) ,
